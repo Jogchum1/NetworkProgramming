@@ -46,10 +46,10 @@ public class Client : MonoBehaviour
             {
                 Debug.Log("We are now connected to the server");
 
-                uint value = 1;
-                m_Driver.BeginSend(m_Connection, out var writer);
-                writer.WriteUInt(value);
-                m_Driver.EndSend(writer);
+                //uint value = 1;
+                //m_Driver.BeginSend(m_Connection, out var writer);
+                //writer.WriteUInt(value);
+                //m_Driver.EndSend(writer);
             }
             else if (cmd == NetworkEvent.Type.Data)
             {
@@ -65,5 +65,13 @@ public class Client : MonoBehaviour
                 m_Connection = default(NetworkConnection);
             }
         }
+    }
+
+    public virtual void SendToServer(NetWorkMessage msg)
+    {
+        DataStreamWriter writer;
+        m_Driver.BeginSend(m_Connection, out writer);
+        msg.Serialize(ref writer);
+        m_Driver.EndSend(writer);
     }
 }

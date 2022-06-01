@@ -70,15 +70,17 @@ public class Server : MonoBehaviour
             {
                 if(cmd == NetworkEvent.Type.Data)
                 {
-                    uint number = stream.ReadUInt();
+                    byte dataType = stream.ReadByte();
+                    FixedString128Bytes chatMessage = stream.ReadFixedString128();
+                    Debug.Log("Got " + dataType + " as Data Type");
+                    Debug.Log("Got " + chatMessage + " as chat Type");
 
-                    Debug.Log("Got " + number + " from the Client adding + 2 to it");
 
-                    number += 2;
 
-                    m_Driver.BeginSend(NetworkPipeline.Null, m_Connections[i], out var writer);
-                    writer.WriteUInt(number);
-                    m_Driver.EndSend(writer);
+
+                    //m_Driver.BeginSend(NetworkPipeline.Null, m_Connections[i], out var writer);
+                    //writer.WriteUInt(number);
+                    //m_Driver.EndSend(writer);
                 }
                 else if(cmd == NetworkEvent.Type.Disconnect)
                 {
